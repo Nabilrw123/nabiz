@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring Kebun Mangga</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="branding">
+      <h1>Nabiz Orchard Intelligence</h1>
+      <p>Dashboard monitoring kebun mangga dengan dukungan sensor dan visi komputer</p>
+    </div>
+    <nav>
+      <a href="#overview">Ringkasan</a>
+      <a href="#map-section">Peta Kebun</a>
+      <a href="#camera-section">Deteksi Mangga</a>
+      <a href="#insights">Rekomendasi</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="overview" class="panel">
+      <header class="panel-header">
+        <h2>Status Lingkungan</h2>
+        <div class="time-controls">
+          <button data-range="1">1 Jam</button>
+          <button class="active" data-range="6">6 Jam</button>
+          <button data-range="24">24 Jam</button>
+        </div>
+      </header>
+      <div class="metrics-grid">
+        <article class="metric-card">
+          <h3>Suhu Udara</h3>
+          <p class="metric-value" id="air-temp">29.5°C</p>
+          <p class="metric-delta positive">+0.4°C dibanding rata-rata harian</p>
+        </article>
+        <article class="metric-card">
+          <h3>Kelembapan Udara</h3>
+          <p class="metric-value" id="air-humidity">68%</p>
+          <p class="metric-delta">Stabil selama 2 jam terakhir</p>
+        </article>
+        <article class="metric-card">
+          <h3>Kelembapan Tanah</h3>
+          <p class="metric-value" id="soil-moisture">31%</p>
+          <p class="metric-delta warning">Perlu penyiraman ringan dalam 3 jam</p>
+        </article>
+        <article class="metric-card">
+          <h3>Suhu Tanah</h3>
+          <p class="metric-value" id="soil-temp">25.1°C</p>
+          <p class="metric-delta">Normal untuk varietas Arumanis</p>
+        </article>
+      </div>
+      <div class="charts">
+        <figure>
+          <figcaption>Tren Suhu &amp; Kelembapan Udara</figcaption>
+          <canvas id="air-chart" width="600" height="260" aria-label="Grafik suhu dan kelembapan udara"></canvas>
+        </figure>
+        <figure>
+          <figcaption>Profil Kelembapan Tanah</figcaption>
+          <canvas id="soil-chart" width="600" height="260" aria-label="Grafik kelembapan tanah"></canvas>
+        </figure>
+      </div>
+    </section>
+
+    <section id="map-section" class="panel">
+      <header class="panel-header">
+        <h2>Peta Navigasi Kebun</h2>
+        <div class="map-legend">
+          <span><span class="legend-box optimal"></span> Optimal</span>
+          <span><span class="legend-box caution"></span> Perlu perhatian</span>
+          <span><span class="legend-box alert"></span> Siaga tinggi</span>
+        </div>
+      </header>
+      <div class="map-wrapper">
+        <div class="orchard-map" role="grid" aria-label="Peta blok kebun">
+          <!-- baris kebun diisi oleh skrip -->
+        </div>
+        <aside class="map-details" aria-live="polite">
+          <h3>Detail Blok</h3>
+          <dl>
+            <div>
+              <dt>Blok</dt>
+              <dd id="block-name">-</dd>
+            </div>
+            <div>
+              <dt>Varietas</dt>
+              <dd id="block-variety">-</dd>
+            </div>
+            <div>
+              <dt>Suhu Udara</dt>
+              <dd id="block-air-temp">-</dd>
+            </div>
+            <div>
+              <dt>Kelembapan Tanah</dt>
+              <dd id="block-soil-moisture">-</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd id="block-status">Pilih blok untuk melihat detail</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section id="camera-section" class="panel">
+      <header class="panel-header">
+        <h2>Deteksi Kematangan Mangga</h2>
+        <p>Gunakan kamera atau unggah foto untuk menilai tingkat kematangan mangga secara otomatis.</p>
+      </header>
+      <div class="camera-grid">
+        <div class="camera-preview">
+          <div class="preview-frame" id="preview-frame">
+            <p>Pratinjau foto akan tampil di sini</p>
+          </div>
+          <div class="camera-actions">
+            <label class="upload-button">Unggah Foto
+              <input type="file" id="image-input" accept="image/*" />
+            </label>
+            <button id="analyze-button" disabled>Analisis Kematangan</button>
+          </div>
+        </div>
+        <div class="analysis-result">
+          <h3>Hasil Analisis</h3>
+          <p id="ripeness-status">Belum ada analisis</p>
+          <div class="score-indicator">
+            <div class="score-bar" id="ripeness-score"></div>
+          </div>
+          <ul id="recommendations">
+            <li>Unggah foto dengan pencahayaan alami untuk hasil terbaik.</li>
+            <li>Fokuskan pada satu buah mangga dalam satu gambar.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" class="panel">
+      <header class="panel-header">
+        <h2>Rekomendasi Operasional</h2>
+      </header>
+      <div class="insights-grid">
+        <article>
+          <h3>Irigrasi</h3>
+          <p>Penurunan kelembapan tanah di blok B2 dan C1. Jadwalkan irigasi tetes selama 20 menit pada pukul 16:00.</p>
+        </article>
+        <article>
+          <h3>Pemupukan</h3>
+          <p>Blok A3 menunjukkan kebutuhan nitrogen ringan. Tambahkan pupuk daun 0.5% pada sesi pemupukan berikutnya.</p>
+        </article>
+        <article>
+          <h3>Panen</h3>
+          <p>45% buah di blok D2 diprediksi siap panen dalam 4 hari berdasarkan kombinasi data sensor dan model visi.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Nabiz Smart Farming Platform</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
